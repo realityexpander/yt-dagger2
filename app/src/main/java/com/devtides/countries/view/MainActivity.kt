@@ -1,19 +1,45 @@
 package com.devtides.countries.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devtides.countries.R
+import com.devtides.countries.di.DaggerApiComponent
+import com.devtides.countries.di.DaggerStringsComponent
 import com.devtides.countries.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
+import javax.inject.Named
+
+// From: https://www.youtube.com/watch?v=bV3jf8VpbSY
+// https://github.com/CatalinStefan/yt-dagger2
+
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: ListViewModel
     private val countriesAdapter = CountryListAdapter(arrayListOf())
+
+    @Inject
+    @Named("aString")
+    lateinit var aString: String
+
+    @Inject
+    @Named("anotherString")
+    lateinit var anotherString: String;
+
+    init {
+        // DaggerApiComponent.create().inject(this) // CANT DO THIS. Only one Component can inject into a given Class
+        DaggerStringsComponent.create().inject(this)
+
+        Log.d(TAG, "aString: $aString")
+        Log.d(TAG, "anotherString: $anotherString")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
