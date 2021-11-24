@@ -22,7 +22,7 @@ interface ApiComponent {
 //    fun inject(mainActivity: MainActivity)
 }
 
-// Grabs objects from the modules
+// Grabs objects from 2 different modules
 @Component(modules = [StringsModule::class, ApiModule::class])
 interface StringsComponent {
     // Gets ANYTHING NEEDED from the modules= and injects it
